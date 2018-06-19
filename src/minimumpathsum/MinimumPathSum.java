@@ -28,43 +28,33 @@ public class MinimumPathSum
     {
         
     }
-    
+ 
     public int minPathSum(int[][] grid) 
     {
-        int m = grid.length;
-        int n = grid[0].length;
-        
-        if (m == 0 || n == 0)
-            return 0;
-        
-        for (int i=0; i<m; i++)
-        {
-            for (int j=0; j<n; j++)
-            {
-                int left = j-1 >= 0 ? j-1 : 0;
-                int top = i-1 >= 0 ? i-1 : 0;
-                if (i == 0 && j == 0)
-                    continue;
-                
-                // add the left
-                if (i == 0)
-                {
-                    grid[i][j] = grid[i][j] + grid[i][left];
-                }
-                // add top
-                else if (j == 0)
-                {
-                    grid[i][j] = grid[i][j] + grid[top][j];
-                }
-                //take min of left and top
-                else
-                {
-                    grid[i][j] = Math.min((grid[i][j] + grid[i][left]), (grid[i][j] + grid[top][j]));
-                }
-                
-            }
-        }
-        
-        return grid[m-1][n-1];
-    }   
+        return minCost(grid, grid.length, grid[0].length);
+    }
+ 
+    private static int minCost(int cost[][], int m, int n)
+    {
+        int i, j;
+        int memo[][] = new int[m+1][n+1];
+ 
+        memo[0][0] = cost[0][0];
+ 
+        /* Initialize first column of total cost(memo) array */
+        for (i = 1; i <= m; i++)
+            memo[i][0] = memo[i-1][0] + cost[i][0];
+ 
+        /* Initialize first row of memo array */
+        for (j = 1; j <= n; j++)
+            memo[0][j] = memo[0][j-1] + cost[0][j];
+ 
+        /* Construct rest of the memo array */
+        for (i = 1; i <= m; i++)
+            for (j = 1; j <= n; j++)
+                memo[i][j] = min(memo[i-1][j],
+                               memo[i][j-1]) + cost[i][j];
+ 
+        return memo[m][n];
+    }
 }
