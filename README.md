@@ -12,7 +12,7 @@ Example 1:
  [4,2,1]]
 Given the above grid map, return 7. Because the path 1→3→1→1→1 minimizes the sum.
 
-Solution:
+# Solution:
 
 1. A 2D integer array is received as function parameter. Each value in 2D array represent an int value of cost. The task is to calculate minimum cost it takes to get from matrix[0][0] to matrix[m][n] where m is number of rows in matrix and n is number of columns.
 
