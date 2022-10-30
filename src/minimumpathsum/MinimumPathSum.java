@@ -24,37 +24,26 @@ public class MinimumPathSum
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) 
-    {
-        
+    public int minPathSum(int[][] grid) {
+        Map<String, Integer> memo = new HashMap<>();
+        return minPathSum(grid, 0, 0, memo);
     }
- 
-    public int minPathSum(int[][] grid) 
+    
+    private int minPathSum(int[][] grid, int x, int y, Map<String, Integer> memo)
     {
-        return minCost(grid, grid.length, grid[0].length);
-    }
- 
-    private static int minCost(int cost[][], int m, int n)
-    {
-        int i, j;
-        int memo[][] = new int[m+1][n+1];
- 
-        memo[0][0] = cost[0][0];
- 
-        /* Initialize first column of total cost(memo) array */
-        for (i = 1; i <= m; i++)
-            memo[i][0] = memo[i-1][0] + cost[i][0];
- 
-        /* Initialize first row of memo array */
-        for (j = 1; j <= n; j++)
-            memo[0][j] = memo[0][j-1] + cost[0][j];
- 
-        /* Construct rest of the memo array */
-        for (i = 1; i <= m; i++)
-            for (j = 1; j <= n; j++)
-                memo[i][j] = min(memo[i-1][j],
-                               memo[i][j-1]) + cost[i][j];
- 
-        return memo[m][n];
+        if (x >= grid.length || y >= grid[0].length)
+            return Integer.MAX_VALUE;
+        String key = x + "," + y;
+        if (memo.get(key) != null)
+        {
+            return memo.get(key);
+        }
+        if (x == grid.length-1 && y == grid[0].length -1)
+        {
+            memo.put(key, grid[x][y]);
+            return memo.get(key);
+        }
+        memo.put(key, grid[x][y] + Math.min(minPathSum(grid, x+1, y, memo), minPathSum(grid, x, y+1, memo)));
+        return memo.get(key);
     }
 }
